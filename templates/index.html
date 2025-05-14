@@ -24,6 +24,197 @@
 
   <!-- Template Main CSS File -->
   <link href="static/style.css" rel="stylesheet">
+  <style>
+    /* Modern Chat Interface Styles */
+    #chat-container {
+        max-width: 400px;
+        margin: 20px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    #chat-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    #chat-container h2 {
+        color: #2c3e50;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #e9ecef;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #chat-container h2:before {
+        content: '🛡️';
+        font-size: 1.4rem;
+    }
+
+    #chat-messages {
+        height: 350px;
+        overflow-y: auto;
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e0 #f8f9fa;
+    }
+
+    #chat-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #chat-messages::-webkit-scrollbar-track {
+        background: #f8f9fa;
+    }
+
+    #chat-messages::-webkit-scrollbar-thumb {
+        background-color: #cbd5e0;
+        border-radius: 3px;
+    }
+
+    .message {
+        margin-bottom: 12px;
+        padding: 12px 15px;
+        border-radius: 15px;
+        max-width: 85%;
+        animation: fadeIn 0.3s ease;
+        line-height: 1.5;
+        font-size: 0.95rem;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-message {
+        background-color: #007bff;
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 5px;
+    }
+
+    .assistant-message {
+        background-color: #e9ecef;
+        color: #2c3e50;
+        margin-right: auto;
+        border-bottom-left-radius: 5px;
+    }
+
+    .input-container {
+        display: flex;
+        gap: 10px;
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    #chat-input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background-color: white;
+    }
+
+    #chat-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    }
+
+    #send-button {
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    #send-button:hover {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+    }
+
+    #send-button:active {
+        transform: translateY(1px);
+    }
+
+    /* Minimize/Maximize functionality */
+    #chat-toggle {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 1001;
+    }
+
+    #chat-container.minimized {
+        display: none;
+    }
+
+    #chat-toggle.visible {
+        display: flex;
+    }
+
+    /* Loading animation */
+    .typing-indicator {
+        display: flex;
+        gap: 5px;
+        padding: 8px 12px;
+        background: #e9ecef;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        width: fit-content;
+    }
+
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background: #6c757d;
+        border-radius: 50%;
+        animation: typing 1s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+  </style>
 </head>
 
 <body>
@@ -72,7 +263,7 @@
   <section id="hero" class="d-flex align-items-center">
 
     <div class="container d-flex flex-column align-items-center justify-content-center" data-aos="fade-up">
-      <h1>BE SAFE FROM SCAMMERS</h1>
+      <h2>Enter the URL For Phishing Detection</h2>
             <form action="/result" method="POST" role="form" class="form">
         <div class="row no-gutters">
           <div class="col-md-6 form-group pr-md-1">
@@ -150,7 +341,7 @@
                 <i class="bx bx-help-circle icon-help"></i> <a data-toggle="collapse" href="#faq-list-3" class="collapsed">Two Major Types of Phishing Attack<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                 <div id="faq-list-3" class="collapse" data-parent=".faq-list">
                   <p>
-                      <i class='bx bxs-chevron-right-circle icon-circle'></i> <b> Deceptive Phishing:</b> Deceptive phishing is by far the most common type of phishing scam. In this ploy, fraudsters impersonate a legitimate company to steal people’s personal data or login credentials. Those emails frequently use threats and a sense of urgency to scare users into doing what the attackers want. <br><br>
+                      <i class='bx bxs-chevron-right-circle icon-circle'></i> <b> Deceptive Phishing:</b> Deceptive phishing is by far the most common type of phishing scam. In this ploy, fraudsters impersonate a legitimate company to steal people's personal data or login credentials. Those emails frequently use threats and a sense of urgency to scare users into doing what the attackers want. <br><br>
                       <i class='bx bxs-chevron-right-circle icon-circle'></i> <b>Spear Phishing:</b> Spear Phishing targets specific individuals instead of a wide group of people. Attackers often research their victims on social media and other sites. That way, they can customize their communications and appear more authentic. <br><br>
                       <i class='bx bxs-chevron-right-circle icon-circle'></i> <b>Other phishing Technique</b> <i class='bx bxs-hand-down'></i><br><br>
                       <i class='bx bx-right-arrow-alt icon-arrrow'></i> <b>Angler Phishing:</b> This cyberattack comes by way of social media. It may involve fake URLs, instant messages or profiles used to obtain sensitive data. Attackers also peruse social profiles to glean any personal information they can use for social engineering. <br><br>
@@ -178,7 +369,7 @@
                       <i class='bx bxs-chevron-right-circle icon-circle'></i> Note any language differences in messaging or emails that vary from legitimate organizational communications. <br><br>
                       <i class='bx bxs-chevron-right-circle icon-circle'></i> Never give away personal information in an email or unsolicited call. For instance, financial institutions will never call and ask for login credentials or account info because they already have it. <br><br>
                       <i class='bx bxs-chevron-right-circle icon-circle'></i> Inspect emails for typos and inaccurate grammar. This is usually a dead giveaway of less-sophisticated phishing scams. <br><br>
-                      <i class='bx bxs-chevron-right-circle icon-circle'></i> Don’t supply personal information via email or text. <br><br>
+                      <i class='bx bxs-chevron-right-circle icon-circle'></i> Don't supply personal information via email or text. <br><br>
                       <i class='bx bxs-chevron-right-circle icon-circle'></i> Beware of urgent or time-sensitive warnings. Phishing attacks often prompt action by pretending to be urgent. <br><br>
                       <i class='bx bxs-chevron-right-circle icon-circle'></i> Verify emails and other correspondence by contacting the organization directly. If you think something is fishy (okay, bad pun), a phone call can quickly identify a legitimate call from a fake one. <br><br>
 
@@ -190,11 +381,11 @@
                 <i class="bx bx-help-circle icon-help"></i> <a data-toggle="collapse" href="#faq-list-5" class="collapsed">How to Prevent and Protect Against Phishing As A Company<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                 <div id="faq-list-5" class="collapse" data-parent=".faq-list">
                   <p>
-                      Since we can’t control the criminals, let’s take a look at how you can prevent phishing attacks. <br>
+                      Since we can't control the criminals, let's take a look at how you can prevent phishing attacks. <br>
 
-                      <i class='bx bxs-chevron-right-circle icon-circle'></i> <b>Train Your Employees</b> - Unsuspecting employees who are not trained to identify phishing emails are easily tricked. If they click on a link, open an attachment, or respond to the email, they could be giving the attacker exactly what they need to break into your system. Training is by far the most crucial action you can take to avoid phishing attacks. By investing in your employees’ security education, you empower them to take ownership of security best practices. With training, your employees can identify a phishing email and report suspicious activity before any information is compromised. <br><br>
+                      <i class='bx bxs-chevron-right-circle icon-circle'></i> <b>Train Your Employees</b> - Unsuspecting employees who are not trained to identify phishing emails are easily tricked. If they click on a link, open an attachment, or respond to the email, they could be giving the attacker exactly what they need to break into your system. Training is by far the most crucial action you can take to avoid phishing attacks. By investing in your employees' security education, you empower them to take ownership of security best practices. With training, your employees can identify a phishing email and report suspicious activity before any information is compromised. <br><br>
                       <i class='bx bxs-chevron-right-circle icon-circle'></i> <b>Update Your Antivirus Software</b>- Keeping your antivirus software updated adds a layer of security. The software will scan files coming into your computer, preventing possible damage. Ensure that your anti-spyware and firewall settings are active.  <br><br>
-                      <i class='bx bxs-chevron-right-circle icon-circle'></i> <b>Stay Up-to-Date</b> - By staying in-the-know, you remain vigilant to phishing attempts. Research common phishing scams so that you’re aware of what security professionals see as the main threats. The more aware you are of what’s out there, the more likely you are to identify a possible attack.  <br><br>
+                      <i class='bx bxs-chevron-right-circle icon-circle'></i> <b>Stay Up-to-Date</b> - By staying in-the-know, you remain vigilant to phishing attempts. Research common phishing scams so that you're aware of what security professionals see as the main threats. The more aware you are of what's out there, the more likely you are to identify a possible attack.  <br><br>
 
                   </p>
                 </div>
@@ -264,6 +455,145 @@
 
   <!-- Template Main JS File -->
   <script src="static/assets/js/main.js"></script>
+
+  <!-- Chat Interface -->
+  <button id="chat-toggle" onclick="toggleChat()">💬</button>
+  <div id="chat-container">
+      <h2>AI Security Assistant</h2>
+      <div id="chat-messages"></div>
+      <div class="input-container">
+          <input type="text" id="chat-input" placeholder="Ask about phishing, security, or get help...">
+          <button id="send-button">Send 📤</button>
+      </div>
+  </div>
+
+  <script>
+      const chatMessages = document.getElementById('chat-messages');
+      const chatInput = document.getElementById('chat-input');
+      const sendButton = document.getElementById('send-button');
+      const chatContainer = document.getElementById('chat-container');
+      const chatToggle = document.getElementById('chat-toggle');
+
+      // Welcome message
+      window.addEventListener('load', () => {
+          setTimeout(() => {
+              addMessage("Hello! I'm your AI Security Assistant. Feel free to ask me anything about phishing, cybersecurity, or online safety. How can I help you today?", false);
+          }, 1000);
+      });
+
+      function toggleChat() {
+          chatContainer.classList.toggle('minimized');
+          chatToggle.innerHTML = chatContainer.classList.contains('minimized') ? '💬' : '⌄';
+      }
+
+      function addMessage(message, isUser = false) {
+          const messageDiv = document.createElement('div');
+          messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
+          messageDiv.textContent = message;
+          chatMessages.appendChild(messageDiv);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function addTypingIndicator() {
+          const indicator = document.createElement('div');
+          indicator.className = 'typing-indicator';
+          indicator.innerHTML = `
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+          `;
+          chatMessages.appendChild(indicator);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          return indicator;
+      }
+
+      async function sendMessage() {
+          const message = chatInput.value.trim();
+          if (!message) return;
+
+          addMessage(message, true);
+          chatInput.value = '';
+          
+          const typingIndicator = addTypingIndicator();
+
+          try {
+              const response = await fetch('/ask_assistant', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ message: message }),
+              });
+
+              const data = await response.json();
+              typingIndicator.remove();
+              
+              if (data.status === 'success') {
+                  addMessage(data.response);
+              } else {
+                  addMessage('Sorry, there was an error processing your request. Please try again.');
+              }
+          } catch (error) {
+              typingIndicator.remove();
+              addMessage('Sorry, there was an error connecting to the assistant. Please try again.');
+          }
+      }
+
+      sendButton.addEventListener('click', sendMessage);
+      chatInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+              sendMessage();
+          }
+      });
+
+      // Make chat draggable
+      let isDragging = false;
+      let currentX;
+      let currentY;
+      let initialX;
+      let initialY;
+      let xOffset = 0;
+      let yOffset = 0;
+
+      chatContainer.addEventListener('mousedown', dragStart);
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', dragEnd);
+
+      function dragStart(e) {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+          
+          initialX = e.clientX - xOffset;
+          initialY = e.clientY - yOffset;
+
+          if (e.target === chatContainer || chatContainer.contains(e.target)) {
+              isDragging = true;
+          }
+      }
+
+      function drag(e) {
+          if (isDragging) {
+              e.preventDefault();
+              
+              currentX = e.clientX - initialX;
+              currentY = e.clientY - initialY;
+
+              xOffset = currentX;
+              yOffset = currentY;
+
+              setTranslate(currentX, currentY, chatContainer);
+          }
+      }
+
+      function setTranslate(xPos, yPos, el) {
+          el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+      }
+
+      function dragEnd(e) {
+          initialX = currentX;
+          initialY = currentY;
+          isDragging = false;
+      }
+  </script>
 
 </body>
 
