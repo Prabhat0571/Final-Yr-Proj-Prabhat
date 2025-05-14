@@ -1,18 +1,3 @@
-# Phishing URL Detection 
-
-![image2](https://github.com/asrith-reddy/Phishing-detector/assets/76733972/da226de9-dfe6-4f0c-a8bc-b92d4cc08e53)
-
-![image1](https://github.com/asrith-reddy/Phishing-detector/assets/76733972/fe706a06-84fe-493f-abb8-34d3fbc594b5)
-
-## Objective
-
-A phishing website is a common social engineering method that mimics trustful uniform resource locators (URLs) and webpages. The objective of this project is to train machine learning models and deep neural nets on the dataset created to predict phishing websites. Both phishing and benign URLs of websites are gathered to form a dataset and from them required URL and website content-based features are extracted. The performance level of each model is measures and compared.
-
-## Installation
-To install the required packages and libraries, run this command in the project directory after Forking and cloning this repository:
-```bash
-pip install -r requirements.txt
-```
 
 ## Technologies Used
 
